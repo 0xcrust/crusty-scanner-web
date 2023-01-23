@@ -28,7 +28,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    column-gap: 42px;
+    column-gap: 56px;
     color: green;
     font-size: 1.1rem;
 }

@@ -6,12 +6,11 @@ function resetResults() {
 const scanButton = document.getElementById('scan-button');
 scanButton.addEventListener("click", function() {
     resetResults();
-
     console.log("Scan begun!");
 
     let inputField = document.getElementById("query-input");
     let domain = inputField.value;
-
+    
     const resultsSection = document.getElementById('results-section');
 
     // Create a header to display a 'scanning' message
@@ -165,117 +164,3 @@ function apiCall(query, url, method) {
     xhr.setRequestHeader('user-token', 'token');
     return xhr;
 }
-// Todo: Parse valid domains?
-
-
-
-/*
-// For testing
-const scanResults = {
-    "subdomains":[
-        {
-            "domain_name":"social.kerkour.com",
-            "open_ports":[
-                {
-                    "port":80,
-                    "conn_open":true
-                },
-                {
-                    "port":443,
-                    "conn_open":true
-                },
-                {
-                    "port":22,
-                    "conn_open":true
-                },
-                {
-                    "port":80,
-                    "conn_open":true
-                },
-                {
-                    "port":443,
-                    "conn_open":true
-                },
-                {
-                    "port":22,
-                    "conn_open":true
-                },
-                {
-                    "port":80,
-                    "conn_open":true
-                },
-                {
-                    "port":443,
-                    "conn_open":true
-                },
-                {
-                    "port":22,
-                    "conn_open":true
-                },
-            ]
-        },
-        {
-            "domain_name":"academy.kerkour.com",
-            "open_ports":[
-                {
-                    "port":80,
-                    "conn_open":true
-                },
-                {
-                    "port":443,
-                    "conn_open":true
-                },
-                {
-                    "port":8443,
-                    "conn_open":true
-                },
-                {
-                    "port":8080,
-                    "conn_open":true
-                }
-            ]
-        },
-        {
-            "domain_name":"kerkour.com",
-            "open_ports":[
-                {
-                    "port":80,
-                    "conn_open":true
-                },
-                {
-                    "port":443,
-                    "conn_open":true
-                },
-                {
-                    "port":8443,
-                    "conn_open":true
-                },
-                {
-                    "port":8080,
-                    "conn_open":true
-                }
-            ]
-        },
-        {
-            "domain_name":"www.kerkour.com",
-            "open_ports":[
-                {
-                    "port":80,
-                    "conn_open":true
-                },
-                {
-                    "port":8443,
-                    "conn_open":true
-                },
-                {
-                    "port":443,
-                    "conn_open":true
-                },
-                {
-                    "port":8080,
-                    "conn_open":true
-                }
-            ]
-        }
-    ]
-};*/
