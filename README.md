@@ -1,14 +1,11 @@
 ## Crusty Scanner
-Subdomain scanner written in the Tokio.rs runtime. Serves results via an Actix Backend.
+v1.0
+<img src="https://raw.githubusercontent.com/0xcrust/subscan/app/app.png">
 
-## Website
-Single page application written in HTML, CSS, Javascript.
+### Website
+HTML, CSS, and Javascript.
 
-## Instructions
-- Get the full Rust installation [here.](https://www.rust-lang.org/tools/install)
-
-- Navigate into the root directory and run `cargo run`.
-
-- When the server is started, open `127.0.0.1:8000` on your browser.
-
-- Enter your domain and click the scan button.
+### Instructions
+- Rust installation: [here.](https://www.rust-lang.org/tools/install),
+- Navigate into the root directory and `cargo run`,
+- Go to http://127.0.0.1/8000
