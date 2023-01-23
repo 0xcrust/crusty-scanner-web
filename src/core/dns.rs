@@ -22,8 +22,8 @@ pub fn new_dns_resolver() -> Resolver {
         },
     )
     .expect("Building dns resolver failed!");
-
-    return Arc::new(resolver);
+    
+    Arc::new(resolver)
 }
 
 /// Check to see if a subdomain resolves according to the Domain Naming System

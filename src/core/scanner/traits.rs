@@ -1,6 +1,6 @@
 use async_trait::async_trait;
 
-use crate::core::error::Error;
+use crate::core::error::ScanError;
 
 /// Scanner trait
 pub trait Scanner {
@@ -11,5 +11,5 @@ pub trait Scanner {
 /// SubdomainScanner trait. Required that the type implements the Scanner trait.
 #[async_trait]
 pub trait SubdomainScanner: Scanner {
-    async fn get_subdomains(&self, target: &str) -> Result<Vec<String>, Error>;
+    async fn get_subdomains(&self, target: &str) -> Result<Vec<String>, ScanError>;
 }

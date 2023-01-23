@@ -101,7 +101,7 @@ pub async fn scan(req: HttpRequest) -> Subdomains {
     let scan_duration = scan_start_time.elapsed();
     log::info!("Scan completed in {:?}", scan_duration);
 
-    return Subdomains {
+    Subdomains {
         subdomains: scan_results,
-    };
+    }
 }

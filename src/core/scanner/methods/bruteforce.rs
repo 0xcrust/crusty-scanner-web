@@ -1,5 +1,9 @@
-use crate::core::error::Error;
-use crate::core::scanner::traits::{Scanner, SubdomainScanner};
+use crate::core::{
+    error::ScanError,
+    scanner::traits::{
+        Scanner, SubdomainScanner,
+    }
+};
 
 use std::{
     fs::File,
@@ -15,23 +19,22 @@ pub struct BruteForceScan {}
 
 impl BruteForceScan {
     pub fn new() -> Self {
-        return BruteForceScan {};
+        BruteForceScan {}
     }
 }
 
 impl Scanner for BruteForceScan {
     fn name(&self) -> String {
-        return String::from("Brute force scanner");
+        String::from("Brute force scanner")
     }
-
     fn about(&self) -> String {
-        return String::from("Finds subdomains using bruteforce.");
+        String::from("Finds subdomains using bruteforce.")
     }
 }
 
 #[async_trait]
 impl SubdomainScanner for BruteForceScan {
-    async fn get_subdomains(&self, target: &str) -> Result<Vec<String>, Error> {
+    async fn get_subdomains(&self, target: &str) -> Result<Vec<String>, ScanError> {
         log::info!("Getting subdomains by bruteforce trial using words from prefixes.txt..");
 
         let concurrency: usize = 1000000;

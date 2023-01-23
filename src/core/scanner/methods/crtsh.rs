@@ -1,6 +1,8 @@
-use crate::{
-    core::error::Error,
-    core::scanner::traits::{Scanner, SubdomainScanner},
+use crate::core::{
+    error::ScanError,
+    scanner::traits::{
+        Scanner, SubdomainScanner,
+    }
 };
 
 use async_trait::async_trait;
@@ -11,17 +13,16 @@ pub struct CrtShScan {}
 
 impl CrtShScan {
     pub fn new() -> Self {
-        return CrtShScan {};
+        CrtShScan {}
     }
 }
 
 impl Scanner for CrtShScan {
     fn name(&self) -> String {
-        return String::from("Crt.sh scanner");
+        String::from("Crt.sh scanner")
     }
-
     fn about(&self) -> String {
-        return String::from("Finds subdomains using crt.sh's online api.");
+        String::from("Finds subdomains using crt.sh's online api.")
     }
 }
 
@@ -34,19 +35,19 @@ struct CrtShResponse {
 
 #[async_trait]
 impl SubdomainScanner for CrtShScan {
-    async fn get_subdomains(&self, target: &str) -> Result<Vec<String>, Error> {
+    async fn get_subdomains(&self, target: &str) -> Result<Vec<String>, ScanError> {
         log::info!("Getting subdomains from crt.sh...");
 
         let url = format!("https://crt.sh/?q=%25.{}&output=json", target);
         let res = reqwest::get(&url).await?;
 
         if !res.status().is_success() {
-            return Err(Error::InvalidHttpResponse(self.name()));
+            return Err(ScanError::InvalidHttpResponse(self.name()));
         }
 
         let crtsh_entries: Vec<CrtShResponse> = match res.json().await {
             Ok(info) => info,
-            Err(_) => return Err(Error::InvalidHttpResponse(self.name())),
+            Err(_) => return Err(ScanError::InvalidHttpResponse(self.name())),
         };
 
         // We use a hashset to prevent duplication of data
@@ -55,12 +56,12 @@ impl SubdomainScanner for CrtShScan {
             .map(|entry| {
                 entry
                     .name_value
-                    .split("\n")
+                    .split('\n')
                     .map(|subdomain| subdomain.trim().to_string())
                     .collect::<Vec<String>>()
             })
             .flatten()
-            .filter(|subdomain: &String| !subdomain.contains("*"))
+            .filter(|subdomain: &String| !subdomain.contains('*'))
             .collect();
 
         Ok(subdomains.into_iter().collect())

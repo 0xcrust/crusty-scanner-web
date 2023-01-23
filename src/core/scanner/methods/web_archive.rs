@@ -1,6 +1,8 @@
-use crate::{
-    core::error::Error,
-    core::scanner::traits::{Scanner, SubdomainScanner},
+use crate::core::{
+    error::ScanError,
+    scanner::traits::{
+        Scanner, SubdomainScanner,
+    }
 };
 
 use async_trait::async_trait;
@@ -12,17 +14,16 @@ pub struct WebArchiveScan {}
 
 impl WebArchiveScan {
     pub fn new() -> Self {
-        return WebArchiveScan {};
+        WebArchiveScan {}
     }
 }
 
 impl Scanner for WebArchiveScan {
     fn name(&self) -> String {
-        return String::from("Web.archive.org subdomains scan");
+        String::from("Web.archive.org subdomains scan")
     }
-
     fn about(&self) -> String {
-        return String::from("Finds subdomains using web.archive.org's online database search.");
+        String::from("Finds subdomains using web.archive.org's online database search.")
     }
 }
 
@@ -31,7 +32,7 @@ struct WebArchiveResults(Vec<Vec<String>>);
 
 #[async_trait]
 impl SubdomainScanner for WebArchiveScan {
-    async fn get_subdomains(&self, target: &str) -> Result<Vec<String>, Error> {
+    async fn get_subdomains(&self, target: &str) -> Result<Vec<String>, ScanError> {
         log::info!("Getting subdomains from web.archive.org..");
 
         let url = format!("https://web.archive.org/cdx/search/cdx?matchType=domain&fl=original&output=json&collapse=urlkey&url={}", target);
@@ -39,12 +40,12 @@ impl SubdomainScanner for WebArchiveScan {
         let res = reqwest::get(&url).await?;
 
         if !res.status().is_success() {
-            return Err(Error::InvalidHttpResponse(self.name()));
+            return Err(ScanError::InvalidHttpResponse(self.name()));
         }
 
         let web_archive_urls: WebArchiveResults = match res.json().await {
             Ok(info) => info,
-            Err(_) => return Err(Error::InvalidHttpResponse(self.name())),
+            Err(_) => return Err(ScanError::InvalidHttpResponse(self.name())),
         };
 
         let subdomains: HashSet<String> = web_archive_urls

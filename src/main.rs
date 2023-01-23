@@ -6,11 +6,13 @@ mod views;
 
 #[actix_rt::main]
 async fn main() -> std::io::Result<()> {
-    HttpServer::new(|| {
-        let app = App::new().configure(views::views_factory);
-        return app;
+    let address = "127.0.0.1:8000";
+    println!("Server configured to run at http://{}", address);
+
+    HttpServer::new(move || {
+        App::new().configure(views::views_factory)
     })
-    .bind("127.0.0.1:8000")?
+    .bind(address)?
     .run()
     .await
 }

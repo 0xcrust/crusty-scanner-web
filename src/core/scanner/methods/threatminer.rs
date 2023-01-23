@@ -1,6 +1,8 @@
-use crate::{
-    core::error::Error,
-    core::scanner::traits::{Scanner, SubdomainScanner},
+use crate::core::{
+    error::ScanError,
+    scanner::traits::{
+        Scanner, SubdomainScanner,
+    }
 };
 
 use async_trait::async_trait;
@@ -11,17 +13,16 @@ pub struct ThreatMinerScan {}
 
 impl ThreatMinerScan {
     pub fn new() -> Self {
-        return ThreatMinerScan {};
+        ThreatMinerScan {}
     }
 }
 
 impl Scanner for ThreatMinerScan {
     fn name(&self) -> String {
-        return String::from("Threatminer scanner");
+        String::from("Threatminer scanner")
     }
-
     fn about(&self) -> String {
-        return String::from("Finds subdomains using threatminer.org's online api.");
+        String::from("Finds subdomains using threatminer.org's online api.")
     }
 }
 
@@ -35,7 +36,7 @@ struct ThreatMinerResponse {
 
 #[async_trait]
 impl SubdomainScanner for ThreatMinerScan {
-    async fn get_subdomains(&self, target: &str) -> Result<Vec<String>, Error> {
+    async fn get_subdomains(&self, target: &str) -> Result<Vec<String>, ScanError> {
         log::info!("Getting subdomains from threatminer.org...");
 
         let url = format!(
@@ -45,16 +46,16 @@ impl SubdomainScanner for ThreatMinerScan {
         let res = reqwest::get(&url).await?;
 
         if !res.status().is_success() {
-            return Err(Error::InvalidHttpResponse(self.name()));
+            return Err(ScanError::InvalidHttpResponse(self.name()));
         }
 
         let response: ThreatMinerResponse = match res.json().await {
             Ok(info) => info,
-            Err(_) => return Err(Error::InvalidHttpResponse(self.name())),
+            Err(_) => return Err(ScanError::InvalidHttpResponse(self.name())),
         };
 
         if response.status_code != "200" {
-            return Err(Error::InvalidHttpResponse(format!(
+            return Err(ScanError::InvalidHttpResponse(format!(
                 "{}. Status code: {}",
                 self.name(),
                 response.status_code
@@ -67,12 +68,12 @@ impl SubdomainScanner for ThreatMinerScan {
             .into_iter()
             .map(|entry| {
                 entry
-                    .split("\n")
+                    .split('\n')
                     .map(|subdomain| subdomain.trim().to_string())
                     .collect::<Vec<String>>()
             })
             .flatten()
-            .filter(|subdomain: &String| !subdomain.contains("*"))
+            .filter(|subdomain: &String| !subdomain.contains('*'))
             .collect();
 
         Ok(subdomains.into_iter().collect())
