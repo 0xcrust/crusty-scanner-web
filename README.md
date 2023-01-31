@@ -1,9 +1,10 @@
 ## Crusty Scanner
 v1.0
+
 <img src="https://github.com/0xcrust/subscan/raw/main/app/app.png">
 
 ### Website
-HTML, CSS, and Javascript.
+html, css, javascript
 
 ### Instructions
 - Rust installation: [here.](https://www.rust-lang.org/tools/install),
