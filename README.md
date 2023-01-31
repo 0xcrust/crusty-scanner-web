@@ -4,7 +4,7 @@ v1.0
 <img src="https://github.com/0xcrust/subscan/raw/main/app/app.png">
 
 ### Website
-html, css, javascript
+HTML, CSS, JS + Actix backend server
 
 ### Instructions
 - Rust installation: [here.](https://www.rust-lang.org/tools/install),
