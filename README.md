@@ -1,6 +1,6 @@
 ## Crusty Scanner
 v1.0
-<img src="https://raw.githubusercontent.com/0xcrust/subscan/app/app.png">
+<img src="https://github.com/0xcrust/subscan/raw/main/app/app.png">
 
 ### Website
 HTML, CSS, and Javascript.
