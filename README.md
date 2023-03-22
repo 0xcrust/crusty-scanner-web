@@ -1,4 +1,4 @@
-## Crusty Scanner
+## FALCON
 v1.0
 
 <img src="https://github.com/0xcrust/subscan/raw/main/app/app.png">
